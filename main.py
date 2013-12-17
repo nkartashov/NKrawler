@@ -7,8 +7,8 @@ from index import Index
 from crawler import CustomCrawler
 
 
-url = input("Input desired url")
-depth = int(input("Input desired depth"))
+url = raw_input("Input desired url: ")
+depth = int(input("Input desired depth: "))
 
 #url = 'http://mit.spbau.ru/sewiki/index.php/SE_Wiki'
 #url = 'http://en.wikipedia.org/wiki/World_Trade_Organization'
