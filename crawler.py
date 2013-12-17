@@ -1,7 +1,6 @@
 __author__ = 'nikita_kartashov'
 # -*- coding: utf-8 -*-
 
-from codecs import open
 import re
 from pattern.web import plaintext
 from pattern.web import Crawler, BREADTH, FILO
@@ -26,8 +25,11 @@ class CustomCrawler(Crawler):
             self._index.add_words(link.url, words)
 
     def crawl_all_links(self):
-        while self.crawl():
-            pass
+        try:
+            while self.crawl():
+                pass
+        except Exception as e:
+            print('Построение индекса завершено с ошибкой: %s' % e)
 
     def crawl(self, method=BREADTH, **kwargs):
         next_link = self.next

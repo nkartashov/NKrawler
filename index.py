@@ -12,6 +12,17 @@ def sort_by_value(item):
     return item[1]
 
 
+def is_stopword(word):
+    english_stopwords = stopwords.raw('english')
+    russian_stopwords = stopwords.raw('russian')
+    is_english_stopword = word in english_stopwords
+    try:
+        word = word.decode('utf-8')
+        return is_english_stopword or word in russian_stopwords
+    except UnicodeError:
+        return is_english_stopword
+
+
 class Index:
     def __init__(self):
         self._words = {}
@@ -37,7 +48,8 @@ class Index:
         urls[link] = urls.get(link, 0) + 1
 
     def add_words(self, link, words):
-        words = [word for word, tag in nltk.pos_tag(words) if tag not in self._blacklisted_parts_of_speech]
+        words = [word for word, tag in nltk.pos_tag(words) if tag not in self._blacklisted_parts_of_speech and
+                                                              not is_stopword(word)]
         for word in words:
             self.add_word(link, word)
 
