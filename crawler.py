@@ -25,18 +25,18 @@ class CustomCrawler(Crawler):
             self._index.add_words(link.url, words)
 
     def crawl_all_links(self):
-        try:
-            while self.crawl():
-                pass
-        except Exception as e:
-            print('Построение индекса завершено с ошибкой: %s' % e)
+        while self.crawl():
+            pass
 
     def crawl(self, method=BREADTH, **kwargs):
         next_link = self.next
         if next_link:
             self._current_depth = self._depths[next_link]
             print('Crawling %dth page at depth %d' % (len(self.visited), self._current_depth))
-            return Crawler.crawl(self, method, **kwargs)
+            try:
+                return Crawler.crawl(self, method, **kwargs)
+            except Exception as e:
+                print('Ошибка при построении индекса: %s' % e)
         return False
 
     def push(self, link, priority=1.0, sort=FILO):
